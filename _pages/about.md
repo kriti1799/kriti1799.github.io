@@ -1,8 +1,8 @@
 ---
 layout: about
-title: ""
+title: About
 permalink: /
-subtitle: "Data Science & ML | Seeking Summer 2026 Internships"
+subtitle: "Data Science & Machine Learning | Seeking Summer 2026 Internships"
 nav: true
 nav_order: 1
 
@@ -23,11 +23,11 @@ latest_posts:
 ---
 
 
-I am a Data Scientist with experience in machine learning, NLP, and applied analytics.
-Currently pursuing my Master’s in Analytics at Georgia Tech, I work on forecasting,
+I am a Data Scientist with 2 years experience in Machine Learning, NLP, and Applied Analytics.
+I am currently pursuing my Master’s in Computational Data Science at Georgia Tech. I work on forecasting,
 LLMs, and real-world ML systems with industry impact.
 
-I am actively seeking **Summer 2026 Data Science / ML internships**.
+
 
 <div class="hero-meta">
   <span>📍 Atlanta, GA</span><tab>
