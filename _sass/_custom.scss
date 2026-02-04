@@ -56,12 +56,12 @@ h1.post-title,
 }
 
 /* 2. Target the Subtitle/Description */
-.post header .post-description,
-.subtitle,
-.page-subtitle {
-  font-size: 1.05rem !important;
-  opacity: 0.70 !important;
-  margin-top: 0.35rem !important;
+header .desc {
+  font-size: 1.25rem !important;    /* Larger size */
+  font-weight: 700 !important;      /* Bold weight */
+  color: #6c757d !important;       /* Professional grey */
+  opacity: 1 !important;            /* Resets any fading from the theme */
+  margin-top: 0.5rem !important;
   line-height: 1.4 !important;
 }
 
