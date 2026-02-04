@@ -28,14 +28,41 @@ LLMs, and real-world ML systems with industry impact.
 I am actively seeking **Summer 2026 Data Science / ML internships**.
 
 <div class="hero-meta">
-  <span>📍 Atlanta, GA</span>
+  <span>📍 Atlanta, GA</span><tab>
   <span>✉️ <a href="mailto:kriti.agrawal010799@gmail.com">kriti.agrawal010799@gmail.com</a></span>
 </div>
 
 <div class="hero-links">
-  <a class="hero-btn" href="https://www.linkedin.com/in/YOUR-LINKEDIN/" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="hero-btn" href="https://www.linkedin.com/in/kriti1799/" target="_blank" rel="noopener">LinkedIn</a>
   <a class="hero-btn" href="https://github.com/kriti1799" target="_blank" rel="noopener">GitHub</a>
   <!-- optional -->
   <!-- <a class="hero-btn" href="/assets/pdf/resume.pdf" target="_blank">Resume</a> -->
 </div>
+
+<section id="about">
+  <h2>About</h2>
+  ...
+</section>
+
+<section id="experience">
+  <h2>Experience</h2>
+  ...
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  ...
+</section>
+
+<section id="research">
+  <h2>Research Interests</h2>
+  ...
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  ...
+</section>
+
+
 

@@ -36,3 +36,9 @@
 .hero-btn:hover {
   border-color: rgba(255,255,255,0.35);
 }
+
+section { scroll-margin-top: 90px; }
+
+html {
+  scroll-behavior: smooth;
+}
