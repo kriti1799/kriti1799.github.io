@@ -47,6 +47,7 @@ latest_posts:
 </div>
 </div>
 
+<div style="clear: both; margin-bottom: 20px;"></div>
 <hr class="section-divider">
 
 <section id="experience">
@@ -89,7 +90,7 @@ latest_posts:
     </div>
     <div class="exp-sub">Nectorr Labs • India</div>
     <ul class="exp-points">
-      <li>ICollaborated with brand advertisers and management to identify needs and develop targeted campaigns using Twitter APIs, increasing positive sentiment and broadening customer base</li>
+      <li>Collaborated with brand advertisers and management to identify needs and develop targeted campaigns using Twitter APIs, increasing positive sentiment and broadening customer base</li>
       <li>Developed a sophisticated Python analytics tool that processed 500,000+ Twitter data points, enabling precise audience segmentation and empowering the marketing team with actionable insights</li>  
     </ul>
   </div>
