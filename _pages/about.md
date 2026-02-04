@@ -96,9 +96,55 @@ latest_posts:
 </div>
 </section>
 
+<hr class="section-divider">
+
 <section id="projects">
   <h2>Projects</h2>
-  ...
+
+
+  <div class="exp-card">
+  <div class="exp-content">
+    <div class="exp-header">
+      <h3 class="exp-title">Neighbouring Archetypes of USA</h3>
+      <span class="exp-date">September 2025 - November 2025</span>
+    </div>
+    <div class="exp-sub">Georgia Institute of Technology • United States</div>
+    <ul class="exp-points">
+      <li>Built an interactive digital twin of the USA by integrating time-series census and EPA datasets to cluster neighborhoods based on various features, using ML to forecast neighborhood evolution over time</li>
+      <li>Performed model interpretation and developed geospatial visualizations in D3, enabling city planners and residents to interpret dynamic urban changes through an intuitive interface</li>  
+    </ul>
+  </div>
+</div>
+
+
+  <div class="exp-card">
+  <div class="exp-content">
+    <div class="exp-header">
+      <h3 class="exp-title">Feasibility of Lie Detection in the Metaverse</h3>
+      <span class="exp-date">July 2023 - September 2024</span>
+    </div>
+    <div class="exp-sub">Hong Kong University of Science and Technology • Hong Kong</div>
+    <ul class="exp-points">
+      <li>Achieved 87\% model accuracy by engineering a multimodal ML pipeline combining eye-tracking and voice transcription features to detect deception in VR; results presented as a poster in IEEE VR 2025</li>
+      <li>Implemented perception studies and ethical audits to quantify user trust and fairness in AI-driven Metaverse experiences, informing UX guidelines for future VR platforms</li>  
+    </ul>
+  </div>
+</div>
+  
+   <div class="exp-card">
+  <div class="exp-content">
+    <div class="exp-header">
+      <h3 class="exp-title">Covid Misinformation Spread</h3>
+      <span class="exp-date"> September 2022 - July 2023</span>
+    </div>
+    <div class="exp-sub">Indraprastha Institute of Information Technology • India</div>
+    <ul class="exp-points">
+      <li>Analyzed the dissemination patterns of Covid misinformation across Twitter, processing data from 100,000+ tweets that informed a research paper, now under peer review, aimed at combating false narratives</li>
+      <li>Fine-tuned embeddings from Word2vec, Glove, Fasttext, and BERT for deep learning model classification</li>
+      <li>  Implemented LDA for topic modeling and deployed Plutchik’s transformer model for emotion detection in tweets</li>
+    </ul>
+  </div>
+</div>
 </section>
 
 <section id="research">
