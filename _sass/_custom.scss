@@ -1,6 +1,38 @@
 /* Custom tweaks */
 
 .profile img {
+  width: 320px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 20%;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 18px;
+  opacity: 0.9;
+}
+
+.hero-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.18);
+  text-decoration: none;
+}
+
+.hero-btn:hover {
+  border-color: rgba(255,255,255,0.35);
 }

@@ -9,10 +9,9 @@ profile:
   image: prof_pic.jpg
   image_circular: false
   more_info: >
-    <p>📍 Atlanta, GA</p>
-    <p>✉️ <a href="mailto:kriti.agrawal010799@gmail.com">kriti.agrawal010799@gmail.com</a></p>
+  
 
-social: true
+social: false
 
 announcements:
   enabled: false
@@ -27,4 +26,16 @@ Currently pursuing my Master’s in Analytics at Georgia Tech, I work on forecas
 LLMs, and real-world ML systems with industry impact.
 
 I am actively seeking **Summer 2026 Data Science / ML internships**.
+
+<div class="hero-meta">
+  <span>📍 Atlanta, GA</span>
+  <span>✉️ <a href="mailto:kriti.agrawal010799@gmail.com">kriti.agrawal010799@gmail.com</a></span>
+</div>
+
+<div class="hero-links">
+  <a class="hero-btn" href="https://www.linkedin.com/in/YOUR-LINKEDIN/" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="hero-btn" href="https://github.com/kriti1799" target="_blank" rel="noopener">GitHub</a>
+  <!-- optional -->
+  <!-- <a class="hero-btn" href="/assets/pdf/resume.pdf" target="_blank">Resume</a> -->
+</div>
 
