@@ -3,14 +3,14 @@ layout: about
 title: About
 permalink: /
 subtitle: "Data Science & Machine Learning | Seeking Summer 2026 Internships"
-nav: true
+nav: false
 nav_order: 1
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false
-  more_info: >
+
   
 
 social: false
