@@ -50,7 +50,22 @@ latest_posts:
 
 <section id="experience">
   <h2>Experience</h2>
-  ...
+  <div class="exp-card">
+  <div class="exp-logo">
+    <img src="/assets/img/accenture_logo.png" alt="Accenture Logo">
+  </div>
+  <div class="exp-content">
+    <div class="exp-header">
+      <h3 class="exp-title">Data Science Consultant</h3>
+      <span class="exp-date">Aug 2022 — July 2025</span>
+    </div>
+    <div class="exp-sub">Accenture Strategy • India</div>
+    <ul class="exp-points">
+      <li>Led end-to-end ML model development for [Specific Project], improving efficiency by X%.</li>
+      <li>Translated complex business requirements into actionable data science roadmaps.</li>
+    </ul>
+  </div>
+</div>
 </section>
 
 <section id="projects">
