@@ -3,7 +3,7 @@ layout: none
 permalink: /projects/
 nav: true
 nav_order: 3
-titel: Projects
+title: Projects
 ---
 <script>
   window.location.replace("/#projects");

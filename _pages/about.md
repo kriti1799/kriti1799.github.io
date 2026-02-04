@@ -30,7 +30,7 @@ LLMs, and real-world ML systems with industry impact.
 
 
 <div class="hero-meta">
-  <span>📍 Atlanta, GA</span><tab>
+  <span>📍 Atlanta, GA</span>
   <span>✉️ <a href="mailto:kriti.agrawal010799@gmail.com">kriti.agrawal010799@gmail.com</a></span>
 </div>
 
@@ -41,10 +41,7 @@ LLMs, and real-world ML systems with industry impact.
   <!-- <a class="hero-btn" href="/assets/pdf/resume.pdf" target="_blank">Resume</a> -->
 </div>
 
-<section id="about">
-  <h2>About</h2>
-  ...
-</section>
+
 
 <section id="experience">
   <h2>Experience</h2>
