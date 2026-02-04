@@ -32,8 +32,14 @@
   text-decoration: none;
 
   border: 1px solid rgba(127, 127, 127, 0.25);
-  background: rgba(127, 127, 127, 0.08);
+  background: #ffffff;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  color: #333 !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+  margin-right: 10px;
 }
 
 .hero-btn:hover {
@@ -84,10 +90,12 @@ article .post-content p,
 .exp-card {
   display: flex;
   gap: 20px;
+  align-items: flex-start;
   margin-bottom: 30px;
   padding: 15px;
   border-radius: 12px;
   transition: background 0.3s ease;
+  margin-top: 2rem;
 }
 
 .exp-card:hover {
@@ -133,4 +141,18 @@ article .post-content p,
   color: #444;
   font-size: 0.95rem;
   line-height: 1.5;
+}
+
+/* Fix the layout container */
+.profile-header {
+  margin-bottom: 3rem;
+  display: block;
+  clear: both; /* Prevents the floating image from messing up the flow */
+}
+
+/* The divider line */
+.section-divider {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid #eee;
 }
