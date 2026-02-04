@@ -20,7 +20,7 @@
 
 .hero-links {
   display: flex;
-  gap: 12px;
+  gap: 22px;
   margin-top: 14px;
 }
 
@@ -64,4 +64,25 @@ html {
 .post-content p,
 .page-content p {
   opacity: 0.85;
+}
+
+/* 1. Target the specific header class used in al-folio */
+header .title {
+  font-weight: 800 !important;
+}
+
+/* 2. Subtitle: Use the theme's specific description class */
+header .post-description, 
+.subtitle, 
+.page-subtitle {
+  font-size: 1.05rem !important;
+  opacity: 0.70 !important;
+  margin-top: 0.35rem !important;
+}
+
+/* 3. About text: Ensure we hit the right container */
+.post .post-content p,
+.page-content p {
+  opacity: 0.85 !important;
+  color: inherit; /* Prevents theme color overrides from hiding the opacity change */
 }
