@@ -72,3 +72,11 @@ article .post-content p,
   opacity: 0.85 !important;
   line-height: 1.6 !important;
 }
+
+.about-content p,
+.post .post-content p {
+  font-size: 1.1rem !important;      /* Slightly larger for readability */
+  line-height: 1.6 !important;       /* Better spacing between lines */
+  color: var(--global-text-color);   /* Keeps it standard text color */
+  opacity: 0.9;                      /* Gives it a clean, modern feel */
+}

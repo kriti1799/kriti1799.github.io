@@ -24,9 +24,13 @@ latest_posts:
 ---
 
 
-I am a Data Scientist with 2 years experience in Machine Learning, NLP, and Applied Analytics.
-I am currently pursuing my Master’s in Computational Data Science at Georgia Tech. I work on forecasting,
-LLMs, and real-world ML systems with industry impact.
+<div class="about-content">
+  <p>
+    I am a Data Scientist with 2 years experience in Machine Learning, NLP, and Applied Analytics. 
+    I am currently pursuing my Master’s in Analytics at Georgia Tech. I work on forecasting, 
+    LLMs, and real-world ML systems with industry impact.
+  </p>
+</div>
 
 
 
