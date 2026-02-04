@@ -47,42 +47,28 @@ html {
   scroll-behavior: smooth;
 }
 
-.page-title,
-.page-title * {
+/* 1. Target the Title with high specificity */
+.post header .title, 
+h1.post-title,
+.page-title {
   font-weight: 800 !important;
+  color: var(--global-text-color) !important;
 }
 
-/* Subtitle: smaller + greyed */
+/* 2. Target the Subtitle/Description */
+.post header .post-description,
 .subtitle,
-.page-subtitle {
-  font-size: 1.05rem;
-  opacity: 0.70;
-  margin-top: 0.35rem;
-}
-
-/* About text: slightly greyed */
-.post-content p,
-.page-content p {
-  opacity: 0.85;
-}
-
-/* 1. Target the specific header class used in al-folio */
-header .title {
-  font-weight: 800 !important;
-}
-
-/* 2. Subtitle: Use the theme's specific description class */
-header .post-description, 
-.subtitle, 
 .page-subtitle {
   font-size: 1.05rem !important;
   opacity: 0.70 !important;
   margin-top: 0.35rem !important;
+  line-height: 1.4 !important;
 }
 
-/* 3. About text: Ensure we hit the right container */
+/* 3. Target the Main About Paragraphs */
 .post .post-content p,
+article .post-content p,
 .page-content p {
   opacity: 0.85 !important;
-  color: inherit; /* Prevents theme color overrides from hiding the opacity change */
+  line-height: 1.6 !important;
 }
