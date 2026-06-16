@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kriti Agrawal — Data Science & Machine Learning</title>
+<meta name="description" content="Kriti Agrawal — Data Scientist & ML Engineer. Forecasting, NLP, and inference optimization.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,440;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#FAFAF8;
+    --ink:#1A1A1A;
+    --graphite:#6B6B6B;
+    --hairline:#E5E3DC;
+    --signal:#3B5BFF;
+    --card:#FFFFFF;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--signal);color:#fff;}
+
+  :focus-visible{
+    outline:2px solid var(--signal);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(250,250,248,0.86);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--hairline);
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:60px;
+  }
+  .nav-name{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+  }
+  .nav-links{
+    display:flex;
+    gap:28px;
+    font-size:14px;
+    color:var(--graphite);
+  }
+  .nav-links a{transition:color .2s ease;}
+  .nav-links a:hover{color:var(--ink);}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:120px 0 64px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1fr 200px;
+    gap:48px;
+    align-items:center;
+  }
+  .hero-photo{
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    border:1px solid var(--hairline);
+    background:var(--card);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .hero-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .hero-photo .placeholder-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--graphite);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    text-align:center;
+    padding:0 24px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--signal);
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:6px;height:6px;
+    background:var(--signal);
+    border-radius:50%;
+    display:inline-block;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:440;
+    font-size:clamp(40px,6vw,64px);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    max-width:11ch;
+  }
+  .hero-sub{
+    margin-top:22px;
+    font-size:18px;
+    color:var(--graphite);
+    max-width:48ch;
+    line-height:1.6;
+  }
+  .hero-actions{
+    margin-top:32px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-size:14px;
+    font-weight:500;
+    padding:11px 20px;
+    border-radius:980px;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .btn-primary{
+    background:var(--ink);
+    color:var(--bg);
+  }
+  .btn-primary:hover{
+    transform:translateY(-1px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.18);
+  }
+  .btn-ghost{
+    border:1px solid var(--hairline);
+    color:var(--ink);
+  }
+  .btn-ghost:hover{
+    border-color:var(--ink);
+    transform:translateY(-1px);
+  }
+
+  /* ---------- METRIC TICKER (signature element) ---------- */
+  .ticker-section{
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+    overflow:hidden;
+    background:var(--card);
+    position:relative;
+  }
+  .ticker-section::before,
+  .ticker-section::after{
+    content:'';
+    position:absolute;
+    top:0;bottom:0;
+    width:64px;
+    z-index:2;
+    pointer-events:none;
+  }
+  .ticker-section::before{
+    left:0;
+    background:linear-gradient(90deg, var(--card), transparent);
+  }
+  .ticker-section::after{
+    right:0;
+    background:linear-gradient(270deg, var(--card), transparent);
+  }
+  .ticker-track{
+    display:flex;
+    width:max-content;
+    animation:scroll-ticker 38s linear infinite;
+  }
+  .ticker-track:hover{animation-play-state:paused;}
+  .ticker-item{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    padding:26px 40px;
+    border-right:1px solid var(--hairline);
+    white-space:nowrap;
+  }
+  .ticker-num{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:30px;
+    color:var(--signal);
+  }
+  .ticker-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--graphite);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  @keyframes scroll-ticker{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{padding:88px 0;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:40px;
+    border-bottom:1px solid var(--hairline);
+    padding-bottom:18px;
+  }
+  .section-title{
+    font-family:'Fraunces',serif;
+    font-weight:440;
+    font-size:28px;
+    letter-spacing:-0.01em;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--graphite);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    padding:32px 0;
+    border-bottom:1px solid var(--hairline);
+    transition:padding-left .25s ease;
+  }
+  .project:hover{padding-left:8px;}
+  .project:last-child{border-bottom:none;}
+  .project-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .project-title{
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .project-title a{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .project-title a:hover{color:var(--signal);}
+  .arrow{
+    font-size:16px;
+    transition:transform .2s ease;
+    color:var(--signal);
+  }
+  .project-title a:hover .arrow{transform:translate(3px,-3px);}
+  .project-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--graphite);
+    white-space:nowrap;
+    padding-top:6px;
+  }
+  .project-desc{
+    color:var(--graphite);
+    font-size:15px;
+    max-width:68ch;
+    line-height:1.65;
+  }
+  .stack{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:4px;
+  }
+  .stack span{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--signal);
+    background:rgba(59,91,255,0.08);
+    padding:4px 10px;
+    border-radius:6px;
+  }
+
+  /* ---------- EXPERIENCE ---------- */
+  .role{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-bottom:1px solid var(--hairline);
+  }
+  .role:last-child{border-bottom:none;}
+  .role-meta{
+    font-size:13px;
+    color:var(--graphite);
+  }
+  .role-meta .company{
+    font-weight:600;
+    color:var(--ink);
+    display:block;
+    margin-bottom:4px;
+    font-size:15px;
+  }
+  .role-title{
+    font-size:15px;
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .role ul{
+    list-style:none;
+    color:var(--graphite);
+    font-size:14.5px;
+    line-height:1.7;
+  }
+  .role ul li{
+    padding-left:18px;
+    position:relative;
+    margin-bottom:8px;
+  }
+  .role ul li::before{
+    content:'—';
+    position:absolute;
+    left:0;
+    color:var(--signal);
+  }
+
+  /* ---------- SKILLS ---------- */
+  .skill-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:28px;
+  }
+  .skill-group h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--signal);
+    margin-bottom:12px;
+  }
+  .skill-group p{
+    color:var(--graphite);
+    font-size:14.5px;
+    line-height:1.7;
+  }
+
+  /* ---------- EDUCATION ---------- */
+  .edu{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:8px;
+    padding:22px 0;
+    border-bottom:1px solid var(--hairline);
+    align-items:baseline;
+  }
+  .edu:last-child{border-bottom:none;}
+  .edu-school{font-weight:600;font-size:16px;}
+  .edu-degree{color:var(--graphite);font-size:14.5px;margin-top:3px;}
+  .edu-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--graphite);
+    white-space:nowrap;
+  }
+
+  /* ---------- FOOTER / CONTACT ---------- */
+  footer{
+    border-top:1px solid var(--hairline);
+    padding:64px 0 48px;
+  }
+  .contact-title{
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    font-weight:440;
+    margin-bottom:24px;
+    max-width:16ch;
+  }
+  .contact-links{
+    display:flex;
+    gap:24px;
+    flex-wrap:wrap;
+    margin-bottom:48px;
+  }
+  .contact-links a{
+    font-size:15px;
+    font-weight:500;
+    padding-bottom:2px;
+    border-bottom:1px solid var(--ink);
+    transition:opacity .2s ease;
+  }
+  .contact-links a:hover{opacity:0.6;}
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    color:var(--graphite);
+    font-size:12.5px;
+    font-family:'JetBrains Mono',monospace;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:680px){
+    .wrap{padding:0 22px;}
+    header.hero{padding:90px 0 48px;}
+    .nav-links{gap:18px;font-size:13px;}
+    section{padding:60px 0;}
+    .skill-grid{grid-template-columns:1fr;}
+    .role{grid-template-columns:1fr;gap:8px;}
+    .project-top{flex-direction:column;}
+    h1{max-width:100%;}
+    .hero-grid{
+      grid-template-columns:1fr;
+      text-align:left;
+    }
+    .hero-photo{
+      order:-1;
+      width:120px;
+      height:120px;
+      margin-bottom:8px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="nav-name">Kriti Agrawal</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Atlanta, GA — Open to opportunities</div>
+      <h1>Data science, built to be understood.</h1>
+      <p class="hero-sub">I'm a data scientist and ML engineer working across forecasting, NLP, and inference optimization — turning messy data into decisions people can act on.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#work">View projects</a>
+        <a class="btn btn-ghost" href="mailto:kagrawal74@gatech.edu">Get in touch</a>
+      </div>
+    </div>
+    <!-- Profile photo: replace the placeholder below with <img src="your-photo.jpg" alt="Kriti Agrawal"> -->
+    <div class="hero-photo">
+      <span class="placeholder-label">Photo</span>
+    </div>
+  </div>
+</header>
+
+<div class="ticker-section" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <!-- items injected twice via JS for seamless loop -->
+  </div>
+</div>
+
+<main>
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-title">Selected projects</div>
+        <div class="section-tag">03 builds</div>
+      </div>
+
+      <div class="project">
+        <div class="project-top">
+          <div class="project-title">
+            <a href="https://github.com/" target="_blank" rel="noopener">Fast-dLLM v2 Inference Optimization <span class="arrow">↗</span></a>
+          </div>
+          <div class="project-date">Jan 2025</div>
+        </div>
+        <p class="project-desc">Implemented token- and layer-level compute skipping for diffusion LLM generation, caching stable hidden states and adding cosine-similarity stability gating with KV-cache safety. Benchmarked on GSM8K with ~24% FLOPs reduction at minimal accuracy cost.</p>
+        <div class="stack"><span>PyTorch</span><span>LLMs</span><span>Systems</span></div>
+      </div>
+
+      <div class="project">
+        <div class="project-top">
+          <div class="project-title">Feasibility of Lie Detection in the Metaverse</div>
+          <div class="project-date">Jul 2023 – Sept 2024</div>
+        </div>
+        <p class="project-desc">Built a multimodal ML pipeline combining eye-tracking and voice transcription to detect deception in VR, reaching 87% accuracy. Ran perception studies and ethical audits on trust and fairness; presented as a poster at IEEE VR 2025.</p>
+        <div class="stack"><span>Transfer Learning</span><span>Multimodal ML</span><span>VR</span></div>
+      </div>
+
+      <div class="project">
+        <div class="project-top">
+          <div class="project-title">
+            <a href="https://github.com/" target="_blank" rel="noopener">Covid Misinformation Spread <span class="arrow">↗</span></a>
+          </div>
+          <div class="project-date">Sept 2022 – Jul 2023</div>
+        </div>
+        <p class="project-desc">Analyzed misinformation dissemination across 100,000+ tweets, fine-tuning Word2Vec, GloVe, FastText, and BERT embeddings for classification. Applied LDA topic modeling and Plutchik's transformer model for emotion detection; findings now under peer review.</p>
+        <div class="stack"><span>Deep Learning</span><span>Transformers</span><span>Topic Modeling</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-title">Experience</div>
+        <div class="section-tag">3 roles</div>
+      </div>
+
+      <div class="role">
+        <div class="role-meta">
+          <span class="company">Accenture Strategy &amp; Consulting</span>
+          Mumbai, India<br>Sept 2023 – Apr 2025
+        </div>
+        <div>
+          <div class="role-title">Data Science Analyst</div>
+          <ul>
+            <li>Increased efficiency 30% by revamping a demand forecasting solution for an $11B brewing company using AutoML (LightGBM, XGBoost) and feature attribution for distribution insights.</li>
+            <li>Reduced inventory wastage 20% by redesigning a 5-year forward forecast with Linear ARIMA and Prophet models, informing provincial-level planning.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="role">
+        <div class="role-meta">
+          <span class="company">Retail Pulse</span>
+          Bangalore, India<br>Aug 2022 – Dec 2022
+        </div>
+        <div>
+          <div class="role-title">Data Science Intern</div>
+          <ul>
+            <li>Improved SKU detection accuracy 10% for a global beverage company by training a customized YOLOv7 model with optimized hyperparameters.</li>
+            <li>Used topic modeling to cluster unstructured Hindi text into structured datasets, increasing engagement 15%.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="role">
+        <div class="role-meta">
+          <span class="company">Nectorr Labs</span>
+          New Delhi, India<br>May 2020 – Jul 2020
+        </div>
+        <div>
+          <div class="role-title">Data Science Intern</div>
+          <ul>
+            <li>Developed a Python analytics tool processing 500,000+ Twitter data points for precise audience segmentation.</li>
+            <li>Partnered with brand advertisers to build targeted campaigns that increased positive sentiment.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="section-title">Skills &amp; education</div>
+        <div class="section-tag">Toolkit</div>
+      </div>
+
+      <div class="skill-grid" style="margin-bottom:48px;">
+        <div class="skill-group">
+          <h3>Languages &amp; Tools</h3>
+          <p>Python, Java, C/C++, SQL, MATLAB · Spark, Databricks, Django, MySQL · Power BI, Tableau, GitHub</p>
+        </div>
+        <div class="skill-group">
+          <h3>ML &amp; Data Science</h3>
+          <p>Forecasting, feature engineering, LLMs &amp; transformers, embeddings, explainable AI (SHAP), NLP, model deployment</p>
+        </div>
+        <div class="skill-group">
+          <h3>Libraries</h3>
+          <p>PyTorch, Scikit-learn, XGBoost, LightGBM, SpaCy, TextBlob, Beautiful Soup, Selenium</p>
+        </div>
+        <div class="skill-group">
+          <h3>Leadership</h3>
+          <p>Chapter Lead, AnitaB.org Mumbai — grew a 50+ member community of women in STEM through workshops and talks</p>
+        </div>
+      </div>
+
+      <div class="edu">
+        <div>
+          <div class="edu-school">Georgia Institute of Technology</div>
+          <div class="edu-degree">M.S. Computational Data Analytics</div>
+        </div>
+        <div class="edu-date">Aug 2025 – Dec 2026</div>
+      </div>
+      <div class="edu">
+        <div>
+          <div class="edu-school">Birla Institute of Technology &amp; Science, Pilani</div>
+          <div class="edu-degree">M.S. Mathematics · B.Tech Electronics &amp; Communication</div>
+        </div>
+        <div class="edu-date">Aug 2018 – May 2023</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-title">Let's build something data-driven.</div>
+    <div class="contact-links">
+      <a href="mailto:kagrawal74@gatech.edu">Email</a>
+      <a href="https://linkedin.com/in/kriti1799/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="footer-bottom">
+      <span>Atlanta, Georgia</span>
+      <span>© 2026 Kriti Agrawal</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Build the metric ticker from real, sourced achievements — duplicated once for a seamless loop.
+  const metrics = [
+    {n:"30%", l:"Efficiency gain — demand forecasting, Accenture"},
+    {n:"20%", l:"Inventory waste reduced — 5yr forecast model"},
+    {n:"87%", l:"Accuracy — VR lie detection pipeline"},
+    {n:"24%", l:"FLOPs reduction — Fast-dLLM v2"},
+    {n:"500K+", l:"Tweets processed — audience segmentation"},
+    {n:"100K+", l:"Tweets analyzed — misinformation study"},
+    {n:"50+", l:"Women in STEM — AnitaB.org Mumbai"},
+  ];
+  const track = document.getElementById('tickerTrack');
+  const build = () => metrics.map(m =>
+    `<div class="ticker-item"><span class="ticker-num">${m.n}</span><span class="ticker-label">${m.l}</span></div>`
+  ).join('');
+  track.innerHTML = build() + build();
+</script>
+
+</body>
+</html>
