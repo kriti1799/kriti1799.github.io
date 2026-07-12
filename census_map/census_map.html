@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7N6L8035CK"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7N6L8035CK');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Census Data Interactive Map</title>
@@ -669,7 +678,10 @@
         async function selectMode(mode) {
             console.log('Selecting mode:', mode);
             currentMode = mode;
-            
+
+            // 👇 Immediately hide any old loader from the previous mode
+            hideLoading();
+
             // Reset zoom tracking when changing modes
             userHasZoomed = false;
 
@@ -694,7 +706,6 @@
                 clusteringBtn.classList.add('active');
                 predictionsBtn.classList.remove('active');
                 variableGroup.style.display = 'none';
-                // hide city selector and show state selector for clustering
                 const cityGroup = document.getElementById('cityGroup');
                 if (cityGroup) cityGroup.style.display = 'none';
                 const stateGroup = document.getElementById('stateGroup');
@@ -704,7 +715,6 @@
                 predictionsBtn.classList.add('active');
                 clusteringBtn.classList.remove('active');
                 variableGroup.style.display = 'block';
-                // hide state selector and show city selector for predictions
                 const stateGroup = document.getElementById('stateGroup');
                 if (stateGroup) stateGroup.style.display = 'none';
                 const cityGroup = document.getElementById('cityGroup');
@@ -712,62 +722,117 @@
                 await loadPredictions();
             }
         }
+
+        
         
         async function loadClustering() {
             const status = document.getElementById('dataStatus');
+            const modeAtStart = currentMode;    // remember which mode started this load
+
             showLoading('Loading clustering data...');
-            
-            try {
-                status.textContent = '⏳ Loading clustering...';
-                console.log('Fetching: data/clustering.csv');
-                
-                const response = await fetch('data/clustering.csv');
-                console.log('Clustering response:', response.status);
-                
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
-                const csvText = await response.text();
-                console.log('CSV length:', csvText.length);
-                console.log('First 200 chars:', csvText.substring(0, 200));
-                
-                Papa.parse(csvText, {
+
+            const parseCsv = (text) => new Promise((resolve, reject) => {
+                Papa.parse(text, {
                     header: true,
                     dynamicTyping: true,
                     skipEmptyLines: true,
-                    complete: (results) => {
-                        console.log('Parse complete, rows:', results.data.length);
-                        console.log('Sample row:', results.data[0]);
-                        
-                        currentData = normalizePredictionData(results.data);
-                        status.className = 'status success';
-                        status.textContent = `✓ Loaded ${currentData.length.toLocaleString()} clustering data`;
-                        updateYearSlider();
-                        updateVariableSelect();
-                        populateStateSelect();
-                        hideLoading();
-                        
-                        // Auto-render the first year for clustering (no city filter = USA/all data)
-                        if (currentYears.length > 0) {
-                            renderClusteringMap(currentYears[0], null);
-                        }
-                    },
-                    error: (error) => {
-                        console.error('Parse error:', error);
-                        status.className = 'status error';
-                        status.textContent = `✗ Parse error: ${error.message}`;
-                        hideLoading();
+                    complete: (results) => resolve(results.data),
+                    error: (err) => reject(err)
+                });
+            });
+            
+            try {
+                status.textContent = 'Loading clustering...';
+                console.log('Fetching: data/clustering.csv and data/map.csv');
+                
+                const [clusteringResponse, mapResponse] = await Promise.all([
+                    fetch('data/clustering.csv'),
+                    fetch('data/map.csv')
+                ]);
+                console.log('Clustering response:', clusteringResponse.status);
+                console.log('Map response:', mapResponse.status);
+                
+                if (!clusteringResponse.ok) throw new Error(`Clustering HTTP ${clusteringResponse.status}`);
+                if (!mapResponse.ok) throw new Error(`Map HTTP ${mapResponse.status}`);
+                
+                const [clusteringCsv, mapCsv] = await Promise.all([
+                    clusteringResponse.text(),
+                    mapResponse.text()
+                ]);
+                console.log('Clustering CSV length:', clusteringCsv.length);
+                console.log('Map CSV length:', mapCsv.length);
+                
+                const [clusteringRows, mapRows] = await Promise.all([
+                    parseCsv(clusteringCsv),
+                    parseCsv(mapCsv)
+                ]);
+
+                // If user switched to predictions while this was loading, ignore it
+                if (currentMode !== 'clustering' || modeAtStart !== 'clustering') {
+                    console.log('Clustering load finished but mode changed; ignoring results.');
+                    hideLoading();
+                    return;
+                }
+
+                console.log('Parse complete, rows:', clusteringRows.length);
+                console.log('Map rows:', mapRows.length);
+                
+                const normalizedClustering = normalizePredictionData(clusteringRows);
+                const clusterLookup = {};
+                mapRows.forEach(row => {
+                    const macro = row && row.macro_label != null ? Number(row.macro_label) : null;
+                    if (!isNaN(macro)) {
+                        clusterLookup[macro] = {
+                            cluster_name: row.cluster_name,
+                            description: row.description
+                        };
                     }
                 });
+
+                currentData = normalizedClustering.map(row => {
+                    const enriched = {...row};
+                    const macro = row && row.macro_label != null ? Number(row.macro_label) : null;
+                    if (!isNaN(macro)) {
+                        enriched.macro_label = macro;
+                    }
+                    const info = clusterLookup[enriched.macro_label];
+                    if (info) {
+                        if (info.cluster_name != null) enriched.cluster_name = info.cluster_name;
+                        if (info.description != null) enriched.description = info.description;
+                    }
+                    return enriched;
+                });
+
+                status.className = 'status success';
+                status.textContent = `Loaded ${currentData.length.toLocaleString()} clustering data`;
+                updateYearSlider();
+                updateVariableSelect();
+                populateStateSelect();
+                hideLoading();
+                
+                // Auto-render first year (USA/all if no city selected)
+                if (currentYears.length > 0) {
+                    renderClusteringMap(currentYears[0], null, true);
+                }
             } catch (error) {
+                if (currentMode !== 'clustering' || modeAtStart !== 'clustering') {
+                    console.log('Clustering fetch error but mode changed; ignoring.');
+                    hideLoading();
+                    return;
+                }
+
                 status.className = 'status error';
-                status.textContent = `✗ Error: ${error.message}`;
+                status.textContent = `Error: ${error.message}`;
                 console.error('Clustering error:', error);
                 hideLoading();
             }
         }
+
         
-        async function loadPredictions() {
+async function loadPredictions() {
             const status = document.getElementById('dataStatus');
+            const modeAtStart = currentMode;   // 👈 remember which mode started this load
+
             showLoading('Loading predictions data...');
             
             try {
@@ -788,6 +853,13 @@
                     dynamicTyping: true,
                     skipEmptyLines: true,
                     complete: (results) => {
+                        // 🔒 If user switched back to clustering, discard this
+                        if (currentMode !== 'predictions' || modeAtStart !== 'predictions') {
+                            console.log('Predictions load finished but mode changed; ignoring results.');
+                            hideLoading();
+                            return;
+                        }
+
                         console.log('Parse complete, rows:', results.data.length);
                         console.log('Sample row:', results.data[0]);
                         
@@ -798,19 +870,25 @@
                         updateVariableSelect();
                         populateCitySelect();
                         hideLoading();
-                        // variableSelect will be enabled after the user chooses a city
 
-                        // make sure `variableSelect` reference exists before trying to use it
                         const variableSelect = document.getElementById('variableSelect');
                         if (variableSelect) {
-                            // Auto-select first variable (kept as convenience but selection will not render until city chosen)
-                            const firstVariable = variableSelect.options.length > 1 ? variableSelect.options[1].value : '';
+                            const firstVariable =
+                                variableSelect.options.length > 1
+                                    ? variableSelect.options[1].value
+                                    : '';
                             if (firstVariable && currentYears.length > 0) {
                                 variableSelect.value = firstVariable;
                             }
                         }
                     },
                     error: (error) => {
+                        if (currentMode !== 'predictions' || modeAtStart !== 'predictions') {
+                            console.log('Predictions parse error but mode changed; ignoring.');
+                            hideLoading();
+                            return;
+                        }
+
                         console.error('Parse error:', error);
                         status.className = 'status error';
                         status.textContent = `✗ Parse error: ${error.message}`;
@@ -818,12 +896,19 @@
                     }
                 });
             } catch (error) {
+                if (currentMode !== 'predictions' || modeAtStart !== 'predictions') {
+                    console.log('Predictions fetch error but mode changed; ignoring.');
+                    hideLoading();
+                    return;
+                }
+
                 status.className = 'status error';
                 status.textContent = `✗ Error: ${error.message}`;
                 console.error('Predictions error:', error);
                 hideLoading();
             }
         }
+
         
         function updateYearSlider() {
             const yearSlider = document.getElementById('yearSlider');
@@ -989,10 +1074,18 @@
 
         function formatNumber(val, digits = 2) {
             if (val == null || isNaN(val)) return '—';
-            const num = Number(val);
-            if (Math.abs(num) >= 1000) return num.toLocaleString(undefined, {maximumFractionDigits: digits});
+
+            let num = Number(val);
+
+            // Clamp negatives to 0
+            if (num < 0) num = 0;
+
+            if (Math.abs(num) >= 1000) {
+                return num.toLocaleString(undefined, { maximumFractionDigits: digits });
+            }
             return num.toFixed(digits);
         }
+
 
         function positionInfoCard(evt) {
             const card = document.getElementById('infoCard');
@@ -1176,8 +1269,13 @@
             stateSelect.disabled = false;
 
             // Use the same city list as predictions
-            stateSelect.innerHTML = '<option value="">-- Select City --</option>' +
-                CITY_LIST.map(c => `<option value="${c.city}___${c.state}">${c.city}, ${c.stateAbbr}</option>`).join('');
+            stateSelect.innerHTML =
+            '<option value="__US__">USA</option>' +        // << ADD THIS
+            '<option value="">-- Select City --</option>' +
+            CITY_LIST.map(c =>
+                `<option value="${c.city}___${c.state}">${c.city}, ${c.stateAbbr}</option>`
+            ).join('');
+
         }
 
         function onStateChange() {
@@ -1303,16 +1401,15 @@
                     const rows = [
                         {label: 'GISJOIN', value: props.GISJOIN || '—'},
                         {label: 'City', value: props.City || props.city || props.CITY || '—'},
+                        {label: 'State', value: props.State || props.state || props.STATE || '—'},  // 👈 NEW
                         {label: 'Year', value: props.YEAR || '—'},
-                        {label: 'Cluster', value: props.macro_label != null ? props.macro_label : '—'}
+                        {label: 'Cluster', value: props.macro_label != null ? (props.macro_label + 1) : '—'}
                     ];
                     
-                    // Add cluster name if available
                     if (props.cluster_name) {
                         rows.push({label: 'Name', value: props.cluster_name});
                     }
                     
-                    // Add description if available
                     if (props.description) {
                         rows.push({label: 'Description', value: props.description});
                     }
@@ -1322,6 +1419,7 @@
                 layer.on('mousemove', positionInfoCard);
                 layer.on('mouseout', hideInfoCard);
             },
+
                 interactive: true,  // Enable interactions
                 renderer: L.canvas()  // Use canvas for better performance
             }).addTo(map);
@@ -1370,12 +1468,18 @@
             legend.onAdd = function() {
                 const div = L.DomUtil.create('div', 'legend');
                 div.innerHTML = `<div class="legend-title">Clusters - ${year}</div>`;
-                
+
                 // Only loop through clusters that actually appear in the map
                 uniqueClusterIds.forEach(clusterId => {
-                    const clusterName = clusterNameMap[clusterId] || `Cluster ${clusterId}`;
+                    const displayId = clusterId + 1; // show 1–9 instead of 0–8
+                    const clusterName =
+                        clusterNameMap[clusterId] || `Cluster ${displayId}`;
+
                     div.innerHTML += `
                         <div style="display: flex; align-items: center; margin: 5px 0;">
+                            <span style="width: 18px; text-align: right; margin-right: 6px; color: #333; font-weight: 600;">
+                                ${displayId}
+                            </span>
                             <div style="width: 20px; height: 20px; background: ${colors[clusterId]}; margin-right: 8px; border: 1px solid #333;"></div>
                             <span style="color: #333;">${clusterName}</span>
                         </div>
@@ -1383,6 +1487,7 @@
                 });
                 return div;
             };
+
             legend.addTo(map);
             
             // Update stats
@@ -1465,8 +1570,12 @@
                 return;
             }
 
-            const values = features.map(f => f.properties[variable]).filter(v => v != null && !isNaN(v));
-            if (!values || values.length === 0) {
+            // Raw values from data
+            const rawValues = features
+                .map(f => f.properties[variable])
+                .filter(v => v != null && !isNaN(v));
+
+            if (!rawValues || rawValues.length === 0) {
                 if (currentLayer) { try { map.removeLayer(currentLayer); } catch(e){}; currentLayer = null; }
                 if (legend) { try { map.removeControl(legend); } catch(e){}; legend = null; }
                 const statsEl = document.getElementById('stats');
@@ -1475,19 +1584,39 @@
                 statsEl.textContent = `No numeric values found for "${toTitleCaseLabel(variable)}" in the selected city/year.`;
                 return;
             }
-            
-            const min = Math.min(...values);
-            const max = Math.max(...values);
-            console.log('Range:', min, '-', max);
+
+            // Clamp negatives to 0 for visualization
+            // Clamp negatives to 0 for visualization and remove any non-numbers
+            const values = rawValues
+                .map(v => {
+                    const num = Number(v);
+                    if (isNaN(num) || num == null) return 0;
+                    return num < 0 ? 0 : num;
+                })
+                .filter(v => !isNaN(v));
+
+
+            let min = Math.min(...values);
+            let max = Math.max(...values);
+            if (min === 0) {
+            const positives = values.filter(v => v > 0);
+            if (positives.length > 0) {
+                min = Math.min(...positives);
+                }
+            }
+
+            console.log('Range (legend):', min, '-', max);
+
             
             const colors = ['#2166ac', '#67a9cf', '#f7f7f7', '#fddbc7', '#d73027'];
             
             function getValueColor(val) {
+                // val is already clamped to 0+ when we call this
                 const norm = (val - min) / (max - min || 1);
-                const idx = Math.min(Math.floor(norm * colors.length), colors.length - 1);
+                const idx = Math.min(Math.floor(norm * (colors.length - 1)), colors.length - 1);
                 return colors[idx];
             }
-            
+
             // Always recreate layer with current year's data to ensure all features are shown
             // CSS transitions will still make the updates smooth
             if (currentLayer) map.removeLayer(currentLayer);
@@ -1495,7 +1624,9 @@
             
             currentLayer = L.geoJSON({type: 'FeatureCollection', features}, {
                 style: (f) => {
-                    const val = f.properties[variable];
+                    let val = Number(f.properties[variable]);
+                    if (isNaN(val) || val == null) val = 0;
+                    if (val < 0) val = 0; // clamp
                     const color = getValueColor(val);
                     return {
                         fillColor: color,
@@ -1505,19 +1636,24 @@
                         fillOpacity: 0.7
                     };
                 },
+
                 onEachFeature: (feature, layer) => {
-                    layer.on('mouseover', (e) => {
-                        const props = feature.properties || {};
-                        const val = props[variable];
-                        showInfoCard('Prediction', [
-                            {label: 'GISJOIN', value: props.GISJOIN || '—'},
-                            {label: 'Year', value: props.YEAR || '—'},
-                            {label: toTitleCaseLabel(variable), value: formatNumber(val, 2)}
-                        ], e);
-                    });
-                    layer.on('mousemove', positionInfoCard);
-                    layer.on('mouseout', hideInfoCard);
-                },
+                layer.on('mouseover', (e) => {
+                    const props = feature.properties || {};
+                    const val = props[variable];
+
+                    showInfoCard('Prediction', [
+                        {label: 'GISJOIN', value: props.GISJOIN || '—'},
+                        {label: 'City', value: props.City || props.city || props.CITY || '—'},
+                        {label: 'State', value: props.State || props.state || props.STATE || '—'},
+                        {label: 'Year', value: props.YEAR || '—'},
+                        {label: toTitleCaseLabel(variable), value: formatNumber(val, 2)}
+                    ], e);
+                });
+
+                layer.on('mousemove', positionInfoCard);
+                layer.on('mouseout', hideInfoCard);
+            },
                 interactive: true,  // Enable interactions
                 renderer: L.canvas()  // Use canvas for better performance
             }).addTo(map);
@@ -1558,9 +1694,10 @@
                     <div class="legend-title">${toTitleCaseLabel(variable)} - ${year}${cityLabel}</div>
                     <div class="legend-scale"></div>
                     <div class="legend-labels">
-                        <span>${min.toFixed(0)}</span>
-                        <span>${max.toFixed(0)}</span>
+                        <span>${formatNumber(min, 0)}</span>
+                        <span>${formatNumber(max, 0)}</span>
                     </div>
+
                 `;
                 return div;
             };
@@ -1569,14 +1706,15 @@
             const stats = document.getElementById('stats');
             stats.style.display = 'block';
             stats.className = 'status success';
-            const mean = values.reduce((a,b) => a+b, 0) / values.length;
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
             stats.innerHTML = `
                 <b>Predictions ${year}: ${features.length.toLocaleString()} tracts</b><br>
                 ${toTitleCaseLabel(variable)}<br>
-                Min: ${min.toFixed(2)}<br>
-                Max: ${max.toFixed(2)}<br>
-                Mean: ${mean.toFixed(2)}
+                Min: ${formatNumber(min, 2)}<br>
+                Max: ${formatNumber(max, 2)}<br>
+                Mean: ${formatNumber(mean, 2)}
             `;
+
         }
         
         // Start when page loads
