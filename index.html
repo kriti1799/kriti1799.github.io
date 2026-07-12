@@ -326,7 +326,7 @@
   .project-desc{
     color:var(--graphite);
     font-size:15px;
-    max-width:68ch;
+    max-width:80ch;
     line-height:1.65;
   }
   ul.project-desc {
@@ -503,7 +503,7 @@ ul.project-desc li::before {
   <div class="wrap">
     <a href="#top" class="nav-name">Kriti Agrawal</a>
     <div class="nav-links">
-      <a href="#work">Work</a>
+      <a href="#work">Projects</a>
       <a href="#experience">Experience</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -563,44 +563,57 @@ ul.project-desc li::before {
         <div class="section-tag">04 builds</div>
       </div>
 
+
        <div class="project">
         <div class="project-top">
           <div class="project-title">
-            <a href="https://github.com/" target="_blank" rel="noopener">Neighbourhood Archetypes USA <span class="arrow">↗</span></a>
+            <a href="https://github.com/kriti1799/Fast-dLLM/tree/token-skip" target="_blank" rel="noopener">Fast-dLLM v2 Inference Optimization <span class="arrow">↗</span></a>
           </div>
           <div class="project-date">Jan 2025</div>
+        </div>
+         <ul class="project-desc">
+          <li>Implemented token-level compute skipping in Fast-dLLM v2 generation by caching prior-step hidden states and reusing
+outputs for “stable” masked tokens; evaluated on GSM8K, achieving∼24% FLOPs reduction (proxy) with only a small
+accuracy drop at the best threshold</li>
+          <li>Added layer-level skipping inside the decoder forward() loop with cosine-similarity stability gating and KV-cache safety;
+built instrumentation to explain the threshold “cliff” and produce accuracy–compute tradeoff curves</li>
+        </ul>
+        <div class="stack"><span>PyTorch</span><span>LLMs</span><span>Systems</span></div>
+      </div>
+
+       <div class="project">
+        <div class="project-top">
+          <div class="project-title">
+            <a href="https://kriti1799.github.io/census_map/census_map.html" target="_blank" rel="noopener">Neighbourhood Archetypes USA <span class="arrow">↗</span></a>
+          </div>
+          <div class="project-date">Oct - Dec 2025</div>
         </div>
        <ul class="project-desc">
   <li>Built a spatiotemporal clustering pipeline using Self-Organizing Maps + K-Means on 1M+ U.S. census tract records (1970–2022) to identify 8 distinct neighborhood archetypes - patterns validated against known demographic shifts like white flight and gentrification across 100+ cities. </li>
   <li>Engineered an XGBoost-based First-Order Markov forecasting model to predict neighborhood feature evolution through 2070, and deployed findings in an interactive D3.js map with dual Clustering + Prediction layers.</li>
 </ul>
-        <div class="stack"><span>PyTorch</span><span>LLMs</span><span>Systems</span></div>
+        <div class="stack"><span>Clustering</span><span>Time Series Forecasting</span><span>D3.js</span></div>
       </div>
 
-      <div class="project">
-        <div class="project-top">
-          <div class="project-title">
-            <a href="https://github.com/" target="_blank" rel="noopener">Fast-dLLM v2 Inference Optimization <span class="arrow">↗</span></a>
-          </div>
-          <div class="project-date">Jan 2025</div>
-        </div>
-        <p class="project-desc">Implemented token- and layer-level compute skipping for diffusion LLM generation, caching stable hidden states and adding cosine-similarity stability gating with KV-cache safety. Benchmarked on GSM8K with ~24% FLOPs reduction at minimal accuracy cost.</p>
-        <div class="stack"><span>PyTorch</span><span>LLMs</span><span>Systems</span></div>
-      </div>
 
       <div class="project">
         <div class="project-top">
           <div class="project-title">Feasibility of Lie Detection in the Metaverse</div>
           <div class="project-date">Jul 2023 – Sept 2024</div>
         </div>
-        <p class="project-desc">Built a multimodal ML pipeline combining eye-tracking and voice transcription to detect deception in VR, reaching 87% accuracy. Ran perception studies and ethical audits on trust and fairness; presented as a poster at IEEE VR 2025.</p>
+        <ul class="project-desc">
+          <li>Achieved 87% model accuracy by engineering a multimodal ML pipeline combining eye-tracking and voice transcription
+features to detect deception in VR; results presented as a poster at IEEE VR 2025</li>
+<li>  Implemented perception studies and ethical audits to quantify user trust and fairness in AI-driven Metaverse experiences,
+informing UX guidelines for future VR platforms</li>
+</ul>
         <div class="stack"><span>Transfer Learning</span><span>Multimodal ML</span><span>VR</span></div>
       </div>
 
       <div class="project">
         <div class="project-top">
           <div class="project-title">
-            <a href="https://github.com/" target="_blank" rel="noopener">Covid Misinformation Spread <span class="arrow">↗</span></a>
+            <a href="https://arxiv.org/abs/2306.13954" target="_blank" rel="noopener">Covid Misinformation Spread <span class="arrow">↗</span></a>
           </div>
           <div class="project-date">Sept 2022 – Jul 2023</div>
         </div>
@@ -625,8 +638,9 @@ ul.project-desc li::before {
         <div>
           <div class="role-title">Data Science Intern</div>
           <ul>
-            <li>Increased efficiency 30% by revamping a demand forecasting solution for an $11B brewing company using AutoML (LightGBM, XGBoost) and feature attribution for distribution insights.</li>
-            <li>Reduced inventory wastage 20% by redesigning a 5-year forward forecast with Linear ARIMA and Prophet models, informing provincial-level planning.</li>
+            <li>Migrated Geotab's stop sign violation detection system from a legacy Gateway Model to the MyGeotab platform, 
+              redesigning device identity and reimagining the pipeline's data model across 7B+ records and 1.2 TB of daily data,
+            with a self-built validation framework covering 12+ statistical tests to ensure zero data regression with no baseline table available.</li>
             
           </ul>
         </div>
@@ -639,7 +653,7 @@ ul.project-desc li::before {
           Mumbai, India<br>Sept 2023 – Apr 2025
         </div>
         <div>
-          <div class="role-title">Data Science Analyst</div>
+          <div class="role-title">Data Scientist</div>
           <ul>
             <li>Increased efficiency 30% by revamping a demand forecasting solution for an $11B brewing company using AutoML (LightGBM, XGBoost) and feature attribution for distribution insights.</li>
             <li>Reduced inventory wastage 20% by redesigning a 5-year forward forecast with Linear ARIMA and Prophet models, informing provincial-level planning.</li>
